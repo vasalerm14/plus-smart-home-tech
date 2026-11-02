@@ -7,10 +7,8 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.telemetry.collector.mapper.HubEventMapper;
-import ru.yandex.practicum.telemetry.collector.mapper.SensorEventMapper;
-import ru.yandex.practicum.telemetry.collector.model.hub.HubEvent;
-import ru.yandex.practicum.telemetry.collector.model.sensor.SensorEvent;
+import ru.yandex.practicum.kafka.telemetry.event.HubEventAvro;
+import ru.yandex.practicum.kafka.telemetry.event.SensorEventAvro;
 
 @Slf4j
 @Service
@@ -25,12 +23,12 @@ public class EventService {
     @Value("${collector.kafka.topics.hubs}")
     private String hubsTopic;
 
-    public void collectSensorEvent(SensorEvent event) {
-        send(sensorsTopic, event.getHubId(), SensorEventMapper.toAvro(event));
+    public void collectSensorEvent(SensorEventAvro event) {
+        send(sensorsTopic, event.getHubId(), event);
     }
 
-    public void collectHubEvent(HubEvent event) {
-        send(hubsTopic, event.getHubId(), HubEventMapper.toAvro(event));
+    public void collectHubEvent(HubEventAvro event) {
+        send(hubsTopic, event.getHubId(), event);
     }
 
     private void send(String topic, String key, SpecificRecordBase value) {
