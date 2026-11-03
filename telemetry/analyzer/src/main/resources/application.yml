@@ -22,3 +22,21 @@ analyzer:
         "[value.deserializer]": ru.yandex.practicum.kafka.deserializer.HubEventDeserializer
         "[enable.auto.commit]": true
         "[auto.offset.reset]": earliest
+    snapshots:
+      topic: telemetry.snapshots.v1
+      poll-timeout: 100ms
+      properties:
+        "[bootstrap.servers]": localhost:9092
+        "[group.id]": telemetry.analyzer.snapshots
+        "[key.deserializer]": org.apache.kafka.common.serialization.StringDeserializer
+        "[value.deserializer]": ru.yandex.practicum.kafka.deserializer.SensorsSnapshotDeserializer
+        "[enable.auto.commit]": false
+        "[auto.offset.reset]": earliest
+
+grpc:
+  client:
+    hub-router:
+      address: 'static://localhost:59090'
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
