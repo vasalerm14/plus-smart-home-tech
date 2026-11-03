@@ -9,3 +9,16 @@ spring:
   sql:
     init:
       mode: always
+
+analyzer:
+  kafka:
+    hubs:
+      topic: telemetry.hubs.v1
+      poll-timeout: 1s
+      properties:
+        "[bootstrap.servers]": localhost:9092
+        "[group.id]": telemetry.analyzer.hubs
+        "[key.deserializer]": org.apache.kafka.common.serialization.StringDeserializer
+        "[value.deserializer]": ru.yandex.practicum.kafka.deserializer.HubEventDeserializer
+        "[enable.auto.commit]": true
+        "[auto.offset.reset]": earliest
