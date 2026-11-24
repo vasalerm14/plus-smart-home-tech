@@ -1,4 +1,8 @@
 spring:
+  application:
+    name: analyzer
+  config:
+    import: optional:configserver:http://localhost:8888
   datasource:
     url: jdbc:postgresql://localhost:5432/telemetry_analyzer
     username: dbuser
